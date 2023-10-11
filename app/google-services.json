@@ -12,7 +12,20 @@
           "package_name": "com.example.student_data_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "433897722182-2cnkpnfoismjl693nu64g0a2m6bb71na.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.student_data_app",
+            "certificate_hash": "31de5ab908baf6995a88e0efd51c0de34621c418"
+          }
+        },
+        {
+          "client_id": "433897722182-nsvpdog8k7cp00jmrmi8of4i1jmc5f76.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAwfptEoPh3bv8Rrlv5wYlqU1CqXQLDbaQ"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433897722182-nsvpdog8k7cp00jmrmi8of4i1jmc5f76.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

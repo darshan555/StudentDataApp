@@ -1,26 +1,32 @@
-package com.example.student_data_app
+package com.example.student_data_app.Activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.student_data_app.R
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class StudentDetail : AppCompatActivity() {
-    val db = Firebase.firestore
+class StudentActivity : AppCompatActivity() {
 
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_student_detail)
+        setContentView(R.layout.activity_student)
+        val username = findViewById<EditText>(R.id.usernameETv)
+        val password = findViewById<EditText>(R.id.passwordETv)
+        val email = findViewById<EditText>(R.id.emailETv)
+        val name = findViewById<EditText>(R.id.nameETv)
+        val degree = findViewById<EditText>(R.id.degreeETv)
+        val update = findViewById<Button>(R.id.updateBTN)
+        val signout = findViewById<Button>(R.id.signoutsBTN)
 
-        val username = findViewById<EditText>(R.id.admUsernameET)
-        val password = findViewById<EditText>(R.id.admPasswordET)
-        val degree = findViewById<EditText>(R.id.admDegreeET)
-        val update = findViewById<Button>(R.id.updateStuBTN)
-
-        val uid = intent.getStringExtra("uid")
+        var uid = intent.getStringExtra("userId")
 
         val usersCollection = db.collection("user")
 
@@ -31,25 +37,32 @@ class StudentDetail : AppCompatActivity() {
                     if (documentSnapshot.exists()) {
                         val usernameText = documentSnapshot.getString("username")
                         val passwordText = documentSnapshot.getString("password")
+                        val emailText = documentSnapshot.getString("email")
+                        val nameText = documentSnapshot.getString("name")
                         val degreeText = documentSnapshot.getString("degree")
 
                         username.setText(usernameText)
+                        name.setText(nameText)
+                        email.setText(emailText)
                         password.setText(passwordText)
                         degree.setText(degreeText)
 
                     } else {
-
                         Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
         update.setOnClickListener{
             val updatedUsername = username.text.toString()
+            val updatedName = name.text.toString()
+            val updatedEmail = email.text.toString()
             val updatedPassword = password.text.toString()
             val updatedDegree = degree.text.toString()
 
             val updatedData = hashMapOf(
                 "username" to updatedUsername,
+                "name" to updatedName,
+                "email" to updatedEmail,
                 "password" to updatedPassword,
                 "degree" to updatedDegree
             )
@@ -64,5 +77,17 @@ class StudentDetail : AppCompatActivity() {
                     }
             }
         }
+
+        signout.setOnClickListener{
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.client_id))
+                .requestEmail()
+                .build()
+
+            GoogleSignIn.getClient(this,gso).signOut()
+            finish()
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
+
 }
